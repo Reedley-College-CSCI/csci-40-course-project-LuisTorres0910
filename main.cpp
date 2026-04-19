@@ -1,8 +1,8 @@
 // CSCI-40 Final Project
-// Author: [Your Name Here]
+// Author: [Luis Torres]
 
 /* 
- * Description:
+ * Description: this is a test to see if commit work
  *
 */
 
