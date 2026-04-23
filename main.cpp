@@ -14,45 +14,52 @@
 
 using namespace std;
 
+//added struct to hold card information
+struct card {
+	string name;
+	string condition;
+	double price;
+	bool availability;
+};
+
 int main() {
 
-	int userName;
-	int choice;
+	string userName;
+	string choice;
    
 	//this is to ask if they are existing user or a new user
 	//ask if they want to login
-	cout << " --- CARD COLLECTION --- " << endl;
-	cout << endl << "ENTER USERNAME TO LOGIN" << endl;
-	cout << endl << "ENTER QUIT TO EXIT PROGRAM" << endl;
+	cout << "				 	  --- CARD COLLECTION --- " << endl;
+	cout << endl << "					  ENTER USERNAME TO LOGIN" << endl;
+	cout << endl << "					**ENTER X TO EXIT PROGRAM**" << endl;
+	cout << endl << " " << endl;
+	cin >> userName;
+
+	if (userName == "X") {
+		cout << "EXITING PROGRAM. HAVE A NICE DAY!" << endl;
+		return 1;
+	}
+	// i need to fix input for username
+	while (userName != "X") {
+		cout << "      " << "WELCOME BACK   " << userName << "                " << endl;
+		cout << "*********************************************" << endl;
+
+		cout << "1. buy" << endl;
+		// if user wants to buy, ask if they want to buy products or single cards
+
+
+		cout << "2. sell" << endl;
+		cout << "3. trade" << endl;
+		cout << "4. view orders" << endl;
+		cout << "5. update profile" << endl;
+
+		cout << "*********************************************" << endl;
+
+		cout << "ENTER YOUR CHOICE" << endl;
+		cin >> choice;
+	}
+
 	
-
-
-
-
-
-
-	//setup for the interface for the inventory management system
-
-	cout << "      " << "WELCOME BACK   " << "username" << "                " << endl;
-	cout << "*********************************************" << endl;
-
-	//ask if it wants to buy, sell, trade, view orders, update cards
-	//make this into a while loop to press 1 for buy, 2. sell, etc and press x to quit out of program
-
-	cout << "1. buy" << endl;
-	// if user wants to buy, ask if they want to buy products or single cards
-
-
-	cout << "2. sell" << endl;
-	cout << "3. trade" << endl;
-	cout << "4. view orders" << endl;
-	cout << "5. update profile" << endl;
-
-	cout << "*********************************************" << endl;
-
-	cout << "ENTER YOUR CHOICE" << endl;
-
-
 
 		return 0;
 
