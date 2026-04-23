@@ -55,7 +55,7 @@ int main() {
 
 		cout << "*********************************************" << endl;
 
-		cout << "ENTER YOUR CHOICE" << endl;
+		cout << " ENTER YOUR CHOICE " << endl;
 		cin >> choice;
 	}
 
