@@ -14,7 +14,6 @@
 
 using namespace std;
 
-//added struct to hold card information
 struct card {
 	string name;
 	string condition;
@@ -25,28 +24,32 @@ struct card {
 int main() {
 
 	string userName;
-	string choice;
+	string choiceX;
+	int choice;
    
 	//this is to ask if they are existing user or a new user
 	//ask if they want to login
+
 	cout << "				 	  --- CARD COLLECTION --- " << endl;
 	cout << endl << "					  ENTER USERNAME TO LOGIN" << endl;
 	cout << endl << "					**ENTER X TO EXIT PROGRAM**" << endl;
 	cout << endl << " " << endl;
-	cin >> userName;
+	getline(cin, userName);
 
-	if (userName == "X") {
+	if (userName == "X" || userName == "x") {
 		cout << "EXITING PROGRAM. HAVE A NICE DAY!" << endl;
-		return 1;
+		return 0;
 	}
-	// i need to fix input for username
-	while (userName != "X") {
+
+	//ask if this is the correct username
+
+	bool menu = true;
+	while (menu) {
 		cout << "      " << "WELCOME BACK   " << userName << "                " << endl;
 		cout << "*********************************************" << endl;
 
 		cout << "1. buy" << endl;
 		// if user wants to buy, ask if they want to buy products or single cards
-
 
 		cout << "2. sell" << endl;
 		cout << "3. trade" << endl;
@@ -55,11 +58,19 @@ int main() {
 
 		cout << "*********************************************" << endl;
 
-		cout << " ENTER YOUR CHOICE " << endl;
-		cin >> choice;
+		cout << " ENTER YOUR CHOICE (X to quit): " << endl;
+		cin >> choiceX;
+
+		if (choiceX == "X" || choiceX == "x") {
+			cout << "Exiting program" << endl;
+			menu = false;
+		}
+		
 	}
 
-	
+
+	//try to use a switch case for the options
+
 
 		return 0;
 
