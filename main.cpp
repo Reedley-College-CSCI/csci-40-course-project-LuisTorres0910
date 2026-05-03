@@ -10,6 +10,7 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <iomanip>
 
 
 using namespace std;
@@ -51,7 +52,7 @@ int main() {
 
 	string userName;
 	string choiceX;
-	int choice;
+	int tcgChoice;
    
 
 	cout << "				 	  --- CARD COLLECTION --- " << endl;
@@ -89,10 +90,45 @@ int main() {
 		else {
 			menu = false;
 		}
+		//i need to fix this part when user inputs x it exits program but also inputs invalid input
 
-
+		
 		if (choiceX == "1") {
 			cout << "\n Which TCG are you interested in buying?" << endl;
+			for (int i = 0; i < 3; i++) {
+				cout << i + 1 << ". " << tcg_selection[i] << endl;
+			}
+			cin >> tcgChoice;
+			if (tcgChoice == 1) {
+				cout << "\nthis is the list of pokemon cards" << endl;
+				for (int i = 0; i < 5; i++) {
+					cout << i + 1 << ". " << pokemon_availabilty[i].name << " [ " << pokemon_availabilty[i].condition << " ] - $ " << pokemon_availabilty[i].price << endl;
+					if (!pokemon_availabilty[i].availability)
+						cout << "   SOLD OUT :( " << endl;
+				}
+			}
+				else if (tcgChoice == 2) {
+					cout << "\nthis is the list of yugioh cards" << endl;
+					for (int i = 0; i < 5; i++) {
+						cout << i + 1 << ". " << yugioh_availabilty[i].name << " [ " << yugioh_availabilty[i].condition << " ] - $ " << yugioh_availabilty[i].price << endl;
+						if (!yugioh_availabilty[i].availability)
+							cout << "   SOLD OUT :( " << endl;
+					}
+				}
+				else if (tcgChoice == 3) {
+					cout << "\nthis is the list of digimon cards" << endl;
+					for (int i = 0; i < 5; i++) {
+						cout << i + 1 << ". " << digimon_availabilty[i].name << " [ " << digimon_availabilty[i].condition << " ] - $ " << digimon_availabilty[i].price << endl;
+						if (!digimon_availabilty[i].availability)
+							cout << "   SOLD OUT :( " << endl;
+					}
+				}
+				else {
+				cout << "INVALID SELECTION" << endl;
+				}
+			
+
+
 		}
 		else if (choiceX == "2") {
 			cout << "\n What items would you like to sell?" << endl;
