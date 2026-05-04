@@ -27,14 +27,14 @@ int main() {
 	string tcg_selection[3] = {"yugioh", "pokemon", "digimon"};
 
 
-	card yugioh_availabilty[5] = {
+	card yugioh_availability[5] = {
 		{ "Blue eyes white dragon", "near mint", 1000.00, true },
 		{ "Dark magician", "mint", 1500.00, false },
 		{ "Red eyes black dragon", "bad", 20.00, true },
 		{ "Stardust dragon", "near mint", 700.00, false },
 		{ "Deocde talker", "good", 300.00, false },
 		};
-	card pokemon_availabilty[5] = {
+	card pokemon_availability[5] = {
 		{ "Pikachu", "near mint", 980.00, true },
 		{ "Charizard", "mint", 1750.00, false },
 		{ "Mew", "good", 120.00, false },
@@ -42,7 +42,7 @@ int main() {
 		{ "Greninja", "bad", 30.00, true },
 	};
 
-	card digimon_availabilty[5] = {
+	card digimon_availability[5] = {
 		{ "Omnimon", "mint", 1200.00, true },
 		{ "Mastemon", "bad", 30.00, false },
 		{ "WarGreymon", "bad", 15.00, true },
@@ -80,7 +80,7 @@ int main() {
 
 		cout << "*********************************************" << endl;
 
-		cout << " ENTER YOUR CHOICE (X to quit): " << endl;
+		cout << "ENTER YOUR CHOICE (X to quit): " << endl;
 		cin >> choiceX;
 
 		if (choiceX == "X" || choiceX == "x") {
@@ -97,34 +97,37 @@ int main() {
 			cout << "\n Which TCG are you interested in buying?" << endl;
 			for (int i = 0; i < 3; i++) {
 				cout << i + 1 << ". " << tcg_selection[i] << endl;
+				
 			}
+			cout << "\n";
 			cin >> tcgChoice;
+			
 			if (tcgChoice == 1) {
 				cout << "\nthis is the list of pokemon cards" << endl;
 				for (int i = 0; i < 5; i++) {
-					cout << i + 1 << ". " << pokemon_availabilty[i].name << " [ " << pokemon_availabilty[i].condition << " ] - $ " << pokemon_availabilty[i].price << endl;
-					if (!pokemon_availabilty[i].availability)
-						cout << "   SOLD OUT :( " << endl;
+					cout << i + 1 << ". " << pokemon_availability[i].name << " [ " << pokemon_availability[i].condition << " ] - $ " << pokemon_availability[i].price << endl;
+					if (!pokemon_availability[i].availability)
+						cout << "   <SOLD OUT>  " << endl;
 				}
 			}
 				else if (tcgChoice == 2) {
 					cout << "\nthis is the list of yugioh cards" << endl;
 					for (int i = 0; i < 5; i++) {
-						cout << i + 1 << ". " << yugioh_availabilty[i].name << " [ " << yugioh_availabilty[i].condition << " ] - $ " << yugioh_availabilty[i].price << endl;
-						if (!yugioh_availabilty[i].availability)
-							cout << "   SOLD OUT :( " << endl;
+						cout << i + 1 << ". " << yugioh_availability[i].name << " [ " << yugioh_availability[i].condition << " ] - $ " << yugioh_availability[i].price << endl;
+						if (!yugioh_availability[i].availability)
+							cout << "   <SOLD OUT>  " << endl;
 					}
 				}
 				else if (tcgChoice == 3) {
 					cout << "\nthis is the list of digimon cards" << endl;
 					for (int i = 0; i < 5; i++) {
-						cout << i + 1 << ". " << digimon_availabilty[i].name << " [ " << digimon_availabilty[i].condition << " ] - $ " << digimon_availabilty[i].price << endl;
-						if (!digimon_availabilty[i].availability)
-							cout << "   SOLD OUT :( " << endl;
+						cout << i + 1 << ". " << digimon_availability[i].name << " [ " << digimon_availability[i].condition << " ] - $ " << digimon_availability[i].price << endl;
+						if (!digimon_availability[i].availability)
+							cout << "   <SOLD OUT>  " << endl;
 					}
 				}
 				else {
-				cout << "INVALID SELECTION" << endl;
+				cout << "\nINVALID SELECTION" << endl;
 				}
 			
 
@@ -146,7 +149,7 @@ int main() {
 			cout << "\n Would you like customize your collection or change UserName? " << endl;
 		}
 		else {
-			cout << "\n Invalid input" << endl;
+			cout << "\nInvalid input" << endl;
 		}
 	}
 
