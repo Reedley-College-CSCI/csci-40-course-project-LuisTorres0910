@@ -22,19 +22,17 @@ struct card {
 	bool availability;
 };
 
-int main() {
+string tcg_selection[3] = {"yugioh", "pokemon", "digimon"};
 
-	string tcg_selection[3] = {"yugioh", "pokemon", "digimon"};
-
-
-	card yugioh_availability[5] = {
+	
+card yugioh_availability[5] = {
 		{ "Blue eyes white dragon", "near mint", 1000.00, true },
 		{ "Dark magician", "mint", 1500.00, false },
 		{ "Red eyes black dragon", "bad", 20.00, true },
 		{ "Stardust dragon", "near mint", 700.00, false },
 		{ "Deocde talker", "good", 300.00, false },
-		};
-	card pokemon_availability[5] = {
+	};
+card pokemon_availability[5] = {
 		{ "Pikachu", "near mint", 980.00, true },
 		{ "Charizard", "mint", 1750.00, false },
 		{ "Mew", "good", 120.00, false },
@@ -42,13 +40,17 @@ int main() {
 		{ "Greninja", "bad", 30.00, true },
 	};
 
-	card digimon_availability[5] = {
+card digimon_availability[5] = {
 		{ "Omnimon", "mint", 1200.00, true },
 		{ "Mastemon", "bad", 30.00, false },
 		{ "WarGreymon", "bad", 15.00, true },
 		{ "Necromon", "mint", 640.00, true },
 		{ "Ryugumon", "good", 150.00, true },
 	};
+
+int main() {
+
+	
 
 	string userName;
 	string choiceX;
@@ -69,6 +71,7 @@ int main() {
 
 	bool menu = true;
 	while (menu) {
+		cout << "\n";
 		cout << "WELCOME BACK   " << userName << "                " << endl;
 		cout << "*********************************************" << endl;
 
@@ -81,40 +84,51 @@ int main() {
 		cout << "*********************************************" << endl;
 
 		cout << "ENTER YOUR CHOICE (X to quit): " << endl;
+		cout << "\n";
 		cin >> choiceX;
 
 		if (choiceX == "X" || choiceX == "x") {
 			cout << "Exiting program" << endl;
 			menu = false;
+			
+			
 		}
 		else {
 			menu = false;
 		}
-		//i need to fix this part when user inputs x it exits program but also inputs invalid input
+			
+		
 
 		
 		if (choiceX == "1") {
 			cout << "\n Which TCG are you interested in buying?" << endl;
+			cout << "\n";
 			for (int i = 0; i < 3; i++) {
 				cout << i + 1 << ". " << tcg_selection[i] << endl;
 				
 			}
 			cout << "\n";
-			cin >> tcgChoice;
+			
+			while (!(cin >> tcgChoice) || tcgChoice < 1 || tcgChoice > 3) {
+				cout << "\nINVALID SELECTION (1. yugioh | 2. pokemon | 3. digimon)" << endl;
+				cout << "\n";
+				cin.clear();
+				cin.ignore(1000, '\n');
+			}
 			
 			if (tcgChoice == 1) {
-				cout << "\nthis is the list of pokemon cards" << endl;
+				cout << "\nthis is the list of yugioh cards" << endl;
 				for (int i = 0; i < 5; i++) {
-					cout << i + 1 << ". " << pokemon_availability[i].name << " [ " << pokemon_availability[i].condition << " ] - $ " << pokemon_availability[i].price << endl;
-					if (!pokemon_availability[i].availability)
+					cout << i + 1 << ". " << yugioh_availability[i].name << " [ " << yugioh_availability[i].condition << " ] - $ " << yugioh_availability[i].price << endl;
+					if (!yugioh_availability[i].availability)
 						cout << "   <SOLD OUT>  " << endl;
 				}
 			}
 				else if (tcgChoice == 2) {
-					cout << "\nthis is the list of yugioh cards" << endl;
+					cout << "\nthis is the list of pokemon cards" << endl;
 					for (int i = 0; i < 5; i++) {
-						cout << i + 1 << ". " << yugioh_availability[i].name << " [ " << yugioh_availability[i].condition << " ] - $ " << yugioh_availability[i].price << endl;
-						if (!yugioh_availability[i].availability)
+						cout << i + 1 << ". " << pokemon_availability[i].name << " [ " << pokemon_availability[i].condition << " ] - $ " << pokemon_availability[i].price << endl;
+						if (!pokemon_availability[i].availability)
 							cout << "   <SOLD OUT>  " << endl;
 					}
 				}
@@ -127,7 +141,8 @@ int main() {
 					}
 				}
 				else {
-				cout << "\nINVALID SELECTION" << endl;
+				cout << "\nINVALID SELECTION"  << endl;
+				
 				}
 			
 
@@ -146,10 +161,10 @@ int main() {
 		}
 
 		else if (choiceX == "5") {
-			cout << "\n Would you like customize your collection or change UserName? " << endl;
+			cout << "\n Would you like to view your collection or change UserName? " << endl;
 		}
 		else {
-			cout << "\nInvalid input" << endl;
+			cout << "\nInvalid input " << endl;
 		}
 	}
 
