@@ -15,7 +15,11 @@
 
 using namespace std;
 
-struct card {
+void printTcg(); //function prototype that prints from users tcg collection
+void loadCollection(); //function prototype that prints users card collection
+
+
+struct Card {
 	string name;
 	string condition;
 	double price;
@@ -25,14 +29,14 @@ struct card {
 string tcg_selection[3] = {"yugioh", "pokemon", "digimon"};
 
 	
-card yugioh_availability[5] = {
+Card yugioh_availability[5] = {
 		{ "Blue eyes white dragon", "near mint", 1000.00, true },
 		{ "Dark magician", "mint", 1500.00, false },
 		{ "Red eyes black dragon", "bad", 20.00, true },
 		{ "Stardust dragon", "near mint", 700.00, false },
 		{ "Deocde talker", "good", 300.00, false },
 	};
-card pokemon_availability[5] = {
+Card pokemon_availability[5] = {
 		{ "Pikachu", "near mint", 980.00, true },
 		{ "Charizard", "mint", 1750.00, false },
 		{ "Mew", "good", 120.00, false },
@@ -40,7 +44,7 @@ card pokemon_availability[5] = {
 		{ "Greninja", "bad", 30.00, true },
 	};
 
-card digimon_availability[5] = {
+Card digimon_availability[5] = {
 		{ "Omnimon", "mint", 1200.00, true },
 		{ "Mastemon", "bad", 30.00, false },
 		{ "WarGreymon", "bad", 15.00, true },
@@ -48,13 +52,20 @@ card digimon_availability[5] = {
 		{ "Ryugumon", "good", 150.00, true },
 	};
 
+//maximum number of slectable tcg and cards to choose from so far
+const int MAX_TCG = 3;
+const int MAX_CARDS = 5;
+
+
+
 int main() {
 
 	
 
-	string userName;
-	string choiceX;
-	int tcgChoice;
+	string userName; //user login name
+	string choiceX; //picks between options 1-5 while menu = true
+	int tcgChoice; //selects between pokemon, yugioh, or digimon
+	string viewCollection; //to check if user wants to view collection
    
 
 	cout << "				 	  --- CARD COLLECTION --- " << endl;
@@ -79,7 +90,7 @@ int main() {
 		cout << "2. sell" << endl;
 		cout << "3. trade" << endl;
 		cout << "4. view orders" << endl;
-		cout << "5. update profile" << endl;
+		cout << "5. view collection" << endl;
 
 		cout << "*********************************************" << endl;
 
@@ -161,17 +172,57 @@ int main() {
 		}
 
 		else if (choiceX == "5") {
-			cout << "\n Would you like to view your collection or change UserName? " << endl;
+			cout << "\n Would you like to view your collection? " << endl;
+			// i need the actual functions to play the text files
 		}
 		else {
 			cout << "\nInvalid input " << endl;
 		}
 	}
 
-
-	
-
-
 		return 0;
 
+}
+// opens text file that displays availale tcg
+void printTcg() {
+	fstream infile("availableTcg.txt");
+
+	int count = 0;
+
+	if (!infile) {
+		cout << "Error: no file found" << endl;
+		return;
+	}
+
+	string availableTcg;
+	cout << "These are the available TCG" << endl;
+
+	while (count < MAX_TCG && getline(infile, availableTcg)) {
+		cout << " --- " << availableTcg << " --- " << endl;
+		count++;
+	}
+	infile.close();
+}
+
+// opens users collection text file and dispalys current collection
+void loadCollection() {
+	fstream infile("userCollection.txt");
+	Card myCollection[MAX_CARDS];
+	int cardCount = 0;
+
+	if (!infile) {
+		cout << "Error: no file found" << endl;
+		return;
+	}
+
+	string tcgCollection;
+	cout << "WOAH! NICE COLLECTION" << endl;
+
+	while (cardCount < MAX_CARDS && infile >> myCollection[cardCount].name >> myCollection[cardCount].condition >> 
+		myCollection[cardCount].price >> myCollection[cardCount].availability) {
+		cout << myCollection[cardCount].name << " -$" << myCollection[cardCount].price << endl;
+		
+		cardCount++;
+	}
+	infile.close();
 }
