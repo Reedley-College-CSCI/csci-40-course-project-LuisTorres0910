@@ -111,8 +111,8 @@ int main() {
 			cin >> tcgChoice;
 
 			if (tcgChoice == 1) cardDisplay("yugioh", yugioh_availability, 5);
-			else if (tcgChoice == 2) cardDisplay("yugioh", pokemon_availability, 5);
-			else if (tcgChoice == 3) cardDisplay("yugioh", digimon_availability, 5);
+			else if (tcgChoice == 2) cardDisplay("pokemon", pokemon_availability, 5);
+			else if (tcgChoice == 3) cardDisplay("digimon", digimon_availability, 5);
 			else cout << "Invalid TCG selection. " << endl;
 			break;
 			
