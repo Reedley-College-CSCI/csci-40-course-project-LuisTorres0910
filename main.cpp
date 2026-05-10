@@ -17,7 +17,7 @@ using namespace std;
 
 void printTcg(); //function prototype that prints from users tcg collection
 void loadCollection(); //function prototype that prints users card collection
-
+void cardDisplay(string tcgName, struct Card cards[], int size);
 
 struct Card {
 	string name;
@@ -63,9 +63,9 @@ int main() {
 	
 
 	string userName; //user login name
-	string choiceX; //picks between options 1-5 while menu = true
+	char choiceX; //picks between options 1-5 while menu = true
 	int tcgChoice; //selects between pokemon, yugioh, or digimon
-	string viewCollection; //to check if user wants to view collection
+	
    
 
 	cout << "				 	  --- CARD COLLECTION --- " << endl;
@@ -98,91 +98,69 @@ int main() {
 		cout << "\n";
 		cin >> choiceX;
 
-		if (choiceX == "X" || choiceX == "x") {
-			cout << "Exiting program" << endl;
-			menu = false;
-			
-			
-		}
-		else {
-			menu = false;
-		}
-			
-		
 
-		
-		if (choiceX == "1") {
-			cout << "\n Which TCG are you interested in buying?" << endl;
-			cout << "\n";
-			for (int i = 0; i < 3; i++) {
-				cout << i + 1 << ". " << tcg_selection[i] << endl;
-				
-			}
-			cout << "\n";
-			
-			while (!(cin >> tcgChoice) || tcgChoice < 1 || tcgChoice > 3) {
-				cout << "\nINVALID SELECTION (1. yugioh | 2. pokemon | 3. digimon)" << endl;
+		switch (choiceX) {
+			case '1':
+				cout << "\n Which TCG are you interested in buying?" << endl;
 				cout << "\n";
-				cin.clear();
-				cin.ignore(1000, '\n');
-			}
-			
-			if (tcgChoice == 1) {
-				cout << "\nthis is the list of yugioh cards" << endl;
-				for (int i = 0; i < 5; i++) {
-					cout << i + 1 << ". " << yugioh_availability[i].name << " [ " << yugioh_availability[i].condition << " ] - $ " << yugioh_availability[i].price << endl;
-					if (!yugioh_availability[i].availability)
-						cout << "   <SOLD OUT>  " << endl;
-				}
-			}
-				else if (tcgChoice == 2) {
-					cout << "\nthis is the list of pokemon cards" << endl;
-					for (int i = 0; i < 5; i++) {
-						cout << i + 1 << ". " << pokemon_availability[i].name << " [ " << pokemon_availability[i].condition << " ] - $ " << pokemon_availability[i].price << endl;
-						if (!pokemon_availability[i].availability)
-							cout << "   <SOLD OUT>  " << endl;
-					}
-				}
-				else if (tcgChoice == 3) {
-					cout << "\nthis is the list of digimon cards" << endl;
-					for (int i = 0; i < 5; i++) {
-						cout << i + 1 << ". " << digimon_availability[i].name << " [ " << digimon_availability[i].condition << " ] - $ " << digimon_availability[i].price << endl;
-						if (!digimon_availability[i].availability)
-							cout << "   <SOLD OUT>  " << endl;
-					}
-				}
-				else {
-				cout << "\nINVALID SELECTION"  << endl;
-				
-				}
-			
+				for (int i = 0; i < 3; i++) {
+				cout << i + 1 << ". " << tcg_selection[i] << endl;
 
+			}
+			cout << "\n";
+			cin >> tcgChoice;
 
-		}
-		else if (choiceX == "2") {
+			if (tcgChoice == 1) cardDisplay("yugioh", yugioh_availability, 5);
+			else if (tcgChoice == 2) cardDisplay("yugioh", pokemon_availability, 5);
+			else if (tcgChoice == 3) cardDisplay("yugioh", digimon_availability, 5);
+			else cout << "Invalid TCG selection. " << endl;
+			break;
+			
+			case '2':
 			cout << "\n What items would you like to sell?" << endl;
-		}
-		
-		else if (choiceX == "3") {
+			break;
+
+			case '3':
 			cout << "\n What items would you like to trade?" << endl;
+			break;
+
+			case '4':
+				cout << "\n Enter orders you'd like to see" << endl;
+				break;
+
+			case '5':
+				cout << "\n loading collection... " << endl;
+				cout << "..." << endl;
+				loadCollection();
+				break;
+			
+			case 'X':
+			case 'x':
+				menu = false;
+				break;
+				
+			default:
+				cout << "\nInvalid input " << endl;
+				break;
 		}
 
-		else if (choiceX == "4") {
-			cout << "\n Enter orders you'd like to see" << endl;
-		}
-
-		else if (choiceX == "5") {
-			cout << "\n Would you like to view your collection? " << endl;
-			// i need the actual functions to play the text files
-		}
-		else {
-			cout << "\nInvalid input " << endl;
-		}
 	}
 
 		return 0;
-
 }
+
+// function to display the cards for the tcg user selects to buy from
+void cardDisplay(string tcgName, Card cards[], int size) {
+	cout << "\n " << tcgName << " LIST \n";
+	for (int i = 0; i < size; i++) {
+			cout << i + 1 << ". " << cards[i].name << " [" << cards[i].condition
+				<< "] - $" << fixed << setprecision(2) << cards[i].price;
+			if (!cards[i].availability) cout << " <SOLD OUT>";
+			cout << endl;
+		}
+}
+
+
 // opens text file that displays availale tcg
 void printTcg() {
 	fstream infile("availableTcg.txt");
