@@ -7,17 +7,24 @@
  * it should also sort from highest to lowest / lowest to highest
 */
 
+
+/*/to do list: add sorting by either availability or condition, and or by price from highest to lowest
+make sure data persists between runs
+implement both sorting and searching algorithms
+
+*/
+
+
+
 #include <iostream>
 #include <string>
 #include <fstream>
 #include <iomanip>
 
 
+
 using namespace std;
 
-void printTcg(); //function prototype that prints from users tcg collection
-void loadCollection(); //function prototype that prints users card collection
-void cardDisplay(string tcgName, struct Card cards[], int size);
 
 struct Card {
 	string name;
@@ -25,6 +32,13 @@ struct Card {
 	double price;
 	bool availability;
 };
+
+
+void printTcg(); //function prototype that prints from users tcg collection
+void loadCollection(); //function prototype that prints users card collection
+void cardDisplay(string tcgName, struct Card cards[], int size); // cleaner way to display cards
+void sortByPrice(Card cards[], int size); // function prototype that sorts by price
+
 
 string tcg_selection[3] = {"yugioh", "pokemon", "digimon"};
 
@@ -64,8 +78,10 @@ int main() {
 
 	string userName; //user login name
 	char choiceX; //picks between options 1-5 while menu = true
+	char sortChoice; //option if they want to sort
 	int tcgChoice; //selects between pokemon, yugioh, or digimon
-	
+	bool menu = true;
+
    
 
 	cout << "				 	  --- CARD COLLECTION --- " << endl;
@@ -80,7 +96,7 @@ int main() {
 	}
 
 
-	bool menu = true;
+
 	while (menu) {
 		cout << "\n";
 		cout << "WELCOME BACK   " << userName << "                " << endl;
@@ -98,6 +114,8 @@ int main() {
 		cout << "\n";
 		cin >> choiceX;
 
+		cin.ignore(1000, '\n');
+
 
 		switch (choiceX) {
 			case '1':
@@ -110,28 +128,55 @@ int main() {
 			cout << "\n";
 			cin >> tcgChoice;
 
+			if (tcgChoice >= 1 && tcgChoice <= 3) {
+				cout << "\nWould you like to sort cards by price lowest to highest? (Y/N): ";
+				cin >> sortChoice;
+				cin.ignore(1000, '\n');
+				//need to add more for when user doesnt want to sort by price
+				if (sortChoice == 'Y' || sortChoice == 'y') {
+					if (tcgChoice == 1) sortByPrice(yugioh_availability, 5);
+					else if (tcgChoice == 2) sortByPrice(pokemon_availability, 5);
+					else if (tcgChoice == 3) sortByPrice(digimon_availability, 5);
+				}
+
+			}
 			if (tcgChoice == 1) cardDisplay("yugioh", yugioh_availability, 5);
 			else if (tcgChoice == 2) cardDisplay("pokemon", pokemon_availability, 5);
 			else if (tcgChoice == 3) cardDisplay("digimon", digimon_availability, 5);
-			else cout << "Invalid TCG selection. " << endl;
+			else {
+				cout << "\n Invalid TCG selection. " << endl;
+			}
+
+			char restart;
+			//need to addd more for when user does want to go back to menu
+			cout << "\nWould you like to go back to the menu (Y/N)" << endl;
+			cin >> restart;
+			cin.ignore(1000, '\n');
+
+			if (restart == 'N' || restart == 'n') {
+				menu = false;
+			}
+
 			break;
 			
 			case '2':
-			cout << "\n What items would you like to sell?" << endl;
+			cout << "\nWhat items would you like to sell?" << endl;
 			break;
 
 			case '3':
-			cout << "\n What items would you like to trade?" << endl;
+			cout << "\nWhat items would you like to trade?" << endl;
 			break;
 
 			case '4':
-				cout << "\n Enter orders you'd like to see" << endl;
+				cout << "\nEnter orders you'd like to see" << endl;
 				break;
 
 			case '5':
-				cout << "\n loading collection... " << endl;
+				cout << "\nloading collection... " << endl;
 				cout << "..." << endl;
+				
 				loadCollection();
+					
 				break;
 			
 			case 'X':
@@ -145,6 +190,8 @@ int main() {
 		}
 
 	}
+
+	cout << "\n Thanks for using this program, have a nice day!" << endl;
 
 		return 0;
 }
@@ -160,10 +207,22 @@ void cardDisplay(string tcgName, Card cards[], int size) {
 		}
 }
 
+//bubble sort
+void sortByPrice(Card cards[], int size) {
+	for (int i = 0; i < size - 1; i++) {
+		for (int j = 0; j < size - i - 1; j++) {
+			if (cards[j].price > cards[j + 1].price) {
+				Card temp = cards[j];
+				cards[j] = cards[j + 1];
+				cards[j + 1] = temp;
+			}
+		}
+	}
+}
 
 // opens text file that displays availale tcg
 void printTcg() {
-	fstream infile("availableTcg.txt");
+	ifstream infile("availableTcg.txt");
 
 	int count = 0;
 
@@ -182,25 +241,26 @@ void printTcg() {
 	infile.close();
 }
 
+
 // opens users collection text file and dispalys current collection
 void loadCollection() {
-	fstream infile("userCollection.txt");
+	ifstream file("userCollection.txt");
 	Card myCollection[MAX_CARDS];
 	int cardCount = 0;
 
-	if (!infile) {
+	if (!file) {
 		cout << "Error: no file found" << endl;
 		return;
 	}
 
-	string tcgCollection;
+	//string tcgCollection;
 	cout << "WOAH! NICE COLLECTION" << endl;
 
-	while (cardCount < MAX_CARDS && infile >> myCollection[cardCount].name >> myCollection[cardCount].condition >> 
+	while (cardCount < MAX_CARDS && file >> myCollection[cardCount].name >> myCollection[cardCount].condition >> 
 		myCollection[cardCount].price >> myCollection[cardCount].availability) {
 		cout << myCollection[cardCount].name << " -$" << myCollection[cardCount].price << endl;
 		
 		cardCount++;
 	}
-	infile.close();
+	file.close();
 }
