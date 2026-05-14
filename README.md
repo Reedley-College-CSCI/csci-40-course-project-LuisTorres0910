@@ -5,9 +5,9 @@
 - What problem does your project solve?  
 - Briefly describe the purpose and key features of your program.
 
-- the problem my project solves is an invenotry system that searches through a wide list of cards and helps sort user's card collection
-- the purpose of this program is to sort through the available cards where user can buy them, which updates their collection.
-  this also has the option to sell and trade cards avaialble in the website
+- the problem my project solves is an invenotry system that searches through a small list of cards and helps sort user's card collection, and also helps add to their personal collection
+- the purpose of this program is to help user view cards avaialbe by sorting them by price, condition, or availability
+
 
 ---
 
@@ -17,12 +17,12 @@
 - Why did you choose to structure your data using structs?
       i chose to use a struct named cards so that it can hold information about the card, so that the user can see if its available, it price, its name, and its condition 
 - How did you implement searching and sorting? What algorithms did you use and why?
-      i plan on using a ...
+      i used a bubble sort to filter the cards by price from lowest to highest and sort them by condition
 - How do you ensure data persistence between program runs?
-      i ensured data persisted between program runs by
+      i ensured data persisted between program runs by ...
 - Did you consider alternative approaches? If so, why did you not use them?  
       yes i considered alternative appraoches. at first i had a bunch of if and else if loops and inside one option user enetered for, i had too many for loops that did the same but for differerent card availability
-      so instead of all of those if loops, i used a swicth case functions, and instead of the bunch of for loops, i instead added a function prototype to do it outside of main for less clutter inside main 
+      so instead of all of those if loops, i used a swicth case functions, and instead of the bunch of for loops, i instead added function prototypes at the the top, called functions inside main, and defined the functions outside of amin at the bottom.
 ---
 
 ## 3. Testing Summary
@@ -44,8 +44,10 @@
 ---
 
 ## 5. Challenges and Lessons Learned
-- What challenges did you encounter while working on this project?  
-- What key lessons did you learn about programming and problem-solving?  
+- What challenges did you encounter while working on this project?
+    a couple challenges i faced throughout this project is that i underestimated the difficulty, sure enough it was manageable but i had alot of fun ideas i wanted to include, like for example a trading feature where it reads different files that held other users card collections, add sales\promos for discounts on the cards. the main problem was constantly realising my code was too simple and needed to be fixed, but the more i tried to add features the harder it got and the more issues i encountered.
+- What key lessons did you learn about programming and problem-solving?
+  a key lesson i learned about programming is to manage time properly and really set some time in advance to know what you plan on working on, and a key lesson for problem-solving is to find where the errors are hiding from, and how to prepare for future errors in the code.
 
 ---
 
