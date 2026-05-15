@@ -2,33 +2,50 @@
 # CS1 Final Project - [Project Title]
 
 ## 1. Overview
-- What problem does your project solve?  
+- What problem does your project solve?   the problem my project solves is an invenotry system that searches through a small list of cards and helps sort user's card collection, and also helps add to their personal collection
 - Briefly describe the purpose and key features of your program.
-
-- the problem my project solves is an invenotry system that searches through a small list of cards and helps sort user's card collection, and also helps add to their personal collection
-- the purpose of this program is to help user view cards avaialbe by sorting them by price, condition, or availability
+  the purpose of this program is to help user view cards avaialbe by sorting them by price, condition, or availability
 
 
 ---
 
 ## 2. Design Decisions
 - What fundamental programming constructs and data types did you use, and why?
-      for constructs i mainly used ... i mainly used string data types so that the user can input the card they are looking for
+      for programing constructs i used ifstream to read from file and ofstream to add to the file, and a struct that holds card information. i mainly used string data types so that the user can input the card they are looking for
 - Why did you choose to structure your data using structs?
       i chose to use a struct named cards so that it can hold information about the card, so that the user can see if its available, it price, its name, and its condition 
 - How did you implement searching and sorting? What algorithms did you use and why?
-      i used a bubble sort to filter the cards by price from lowest to highest and sort them by condition
+      i used a bubble sort to filter the cards by price from lowest to highest, availability and sort them by condition. i used a linear search to search through all cards in the array from within a price range
 - How do you ensure data persistence between program runs?
-      i ensured data persisted between program runs by ...
+      i didnt really ensure data persistence between program runs
 - Did you consider alternative approaches? If so, why did you not use them?  
       yes i considered alternative appraoches. at first i had a bunch of if and else if loops and inside one option user enetered for, i had too many for loops that did the same but for differerent card availability
-      so instead of all of those if loops, i used a swicth case functions, and instead of the bunch of for loops, i instead added function prototypes at the the top, called functions inside main, and defined the functions outside of amin at the bottom.
+      so instead of all of those if loops, i used a swicth case functions, and instead of the bunch of for loops, i instead added function prototypes at the the top, called functions inside main, and defined the functions outside of main at the bottom.
 ---
 
 ## 3. Testing Summary
 - **Structured Testing Log:** Include a table with test cases, expected output, actual output, and pass/fail status.  
 - What testing methods did you use?  
 - Provide examples of test inputs (valid and invalid) and describe how your program responds.  
+
+test case id   description               input              expected output             actual output          pass/fail
+
+tc-01        input user name          Luis Torres             Luis Torres               Luis Torres                  Pass  
+
+tc-02        x to exit program            x                  Exiting program...        Exiting program...            pass
+
+tc-03        user picks between 1-5     #between 1-5    1 goes to buy, 2 goes sell     1. buy, 2. doesnt work        fail
+                                                        3. goes to trade, 4 goes to     3. doesnt work, 4. search
+                                                       view catalog by price,           5. loads collection
+                                                       5 goes to view collection
+                                                
+tc-04       buy function               #between 1-10    user buys card               user does buy card and            fail
+                                                                                    load to userCollection.txt
+                                                                              but availability doesnt go from 1 to 0
+
+tc-05      sorting by price,            p,a,c,d          cards in array sort      it does sort according to input      pass
+            condition, availability                        by price, condition
+                                                            availability
 
 ---
 
