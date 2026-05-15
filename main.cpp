@@ -35,6 +35,7 @@ void loadCollection(); //function prototype that prints users card collection
 void cardDisplay(string tcgName, struct Card cards[], int size); // cleaner way to display cards
 void sortByPrice(Card cards[], int size); // function prototype that sorts by price
 void sortByAvailability(Card cards[], int size);// function prototype that sorts by availability
+void purchase(Card& cardSelect); //allows the option to buy cards and store into userCollection.txt file
 void searchAllByPrice(Card yugi[], Card poke[], Card digi[], int size); //able to sort all tcg by price ranges
 void sortByCondition(Card cards[], int size); // function prototype that sorts by condition
 int conditionConvert(string condition); // function prototype that converts condition strings to numerical values
@@ -58,7 +59,7 @@ Card yugioh_availability[10] = {
 Card pokemon_availability[10] = {
 		{"Pikachu", "Near Mint", 980.00, true },
 		{"Charizard", "Mint", 1750.00, false },
-		{"Mew", "Lighlty Played", 120.00, false },
+		{"Mew", "Lightly Played", 120.00, false },
 		{"Magikarp", "Near Mint", 860.00, false },
 		{"Greninja", "Damaged", 30.00, true },
 		{"Meowth", "Heavily Played", 8.12, true },
@@ -78,7 +79,7 @@ Card digimon_availability[10] = {
 		{"Neptunemon", "Heavily Played", 12.52, true },
 		{"Ariemon", "Mint", 43.20, false },
 		{"Alphamon", "Mint", 37.30, false },
-		{"Merukimon", "Lighlty Played", 20.00, true },
+		{"Merukimon", "Lightly Played", 20.00, true },
 		{"Ami Aiba", "Near Mint", 157.00, true },
 	};
 
@@ -95,6 +96,7 @@ int main() {
 	char choiceX; //picks between options 1-5 while menu = true
 	char sortChoice; //option if they want to sort
 	int tcgChoice; //selects between pokemon, yugioh, or digimon
+	int cardElement;// picks which element inside array for when user wants to buy card
 	bool menu = true;
 
    
@@ -187,6 +189,16 @@ int main() {
 				if (tcgChoice == 1) cardDisplay("Yugioh", yugioh_availability, 10);
 				else if (tcgChoice == 2) cardDisplay("Pokemon", pokemon_availability, 10);
 				else if (tcgChoice == 3) cardDisplay("Digimon", digimon_availability, 10);
+
+				cout << "\nWhich card would you like to buy (0 to cancel): " << endl;
+				cin >> cardElement;
+
+				if (cardElement > 0 && cardElement <= 10) {
+					if (tcgChoice == 1) purchase(yugioh_availability[cardElement -1]);
+					else if (tcgChoice == 2) purchase(pokemon_availability[cardElement - 1]);
+					else if (tcgChoice == 3) purchase(digimon_availability[cardElement - 1]);
+				}
+				 
 			}
 			else {
 				cout << "\n Invalid TCG selection. " << endl;
@@ -196,7 +208,7 @@ int main() {
 				
 			
 			case '2':
-				cout << "\nWhat items would you like to sell?" << endl;
+				cout << "\nSorry maintenance in progress..." << endl;
 				break;
 
 			case '3':
@@ -329,25 +341,55 @@ void searchAllByPrice(Card yugi[], Card poke[], Card digi[], int size) {
 	}
 }
 
-// opens text file that displays availale tcg
-void printTcg() {
-	ifstream infile("availableTcg.txt");
-
-	int count = 0;
-
-	if (!infile) {
-		cout << "Error: no file found" << endl;
+// 
+void purchase(Card &cardSelect) {
+	if (!cardSelect.availability) {
+		cout << "\nSorry about that, " << cardSelect.name << " just left our hands..." << endl;
 		return;
 	}
 
-	string availableTcg;
-	cout << "These are the available TCG" << endl;
+	Card tempCollection[MAX_CARDS];
+	int count = 0;
+	
+	ifstream inFile("userCollection.txt");
+	if (inFile) {
+		while (count < MAX_CARDS && getline(inFile, tempCollection[count].name, ',')) {
+			getline(inFile, tempCollection[count].condition, ',');
 
-	while (count < MAX_TCG && getline(infile, availableTcg)) {
-		cout << " --- " << availableTcg << " --- " << endl;
-		count++;
+			inFile >> tempCollection[count].price;
+			inFile.ignore(1, ',');
+			inFile >> tempCollection[count].availability;
+			inFile.ignore(1000, '\n');
+			count++;
+		}
+		inFile.close();
 	}
-	infile.close();
+
+	if (count < MAX_CARDS) {
+		tempCollection[count] = cardSelect;
+		count++;
+		cardSelect.availability = false;
+	}
+	else {
+		cout << "Collection full! Cannot add more cards." << endl;
+		return;
+	}
+
+	ofstream outFile("userCollection.txt");
+	if (outFile) {
+		for (int i = 0; i < count; i++) {
+			outFile << tempCollection[i].name << ","
+				<< tempCollection[i].condition << ","
+				<< tempCollection[i].price << ","
+				<< 1 << endl;
+		}
+		outFile.close();
+		cout << "\nPlease take good care of your brand new card!" << endl;
+	}
+	else {
+		cout << "Error: Could not save to file" << endl;
+	}
+
 }
 
 
