@@ -8,11 +8,7 @@
 */
 
 
-/*/to do list: add sorting by either availability or condition, and or by price from highest to lowest
-make sure data persists between runs
-implement both sorting and searching algorithms
 
-*/
 
 
 
@@ -38,6 +34,8 @@ void printTcg(); //function prototype that prints from users tcg collection
 void loadCollection(); //function prototype that prints users card collection
 void cardDisplay(string tcgName, struct Card cards[], int size); // cleaner way to display cards
 void sortByPrice(Card cards[], int size); // function prototype that sorts by price
+void sortByAvailability(Card cards[], int size);// function prototype that sorts by availability
+void searchAllByPrice(Card yugi[], Card poke[], Card digi[], int size); //able to sort all tcg by price ranges
 void sortByCondition(Card cards[], int size); // function prototype that sorts by condition
 int conditionConvert(string condition); // function prototype that converts condition strings to numerical values
 
@@ -45,33 +43,48 @@ int conditionConvert(string condition); // function prototype that converts cond
 string tcg_selection[3] = {"yugioh", "pokemon", "digimon"};
 
 	
-Card yugioh_availability[5] = {
-		{ "Blue eyes white dragon", "Near Mint", 1000.00, true },
-		{ "Dark magician", "Mint", 1500.00, false },
-		{ "Red eyes black dragon", "Damaged", 20.00, true },
-		{ "Stardust dragon", "Near Mint", 700.00, false },
-		{ "Deocde talker", "lightly Played", 300.00, false },
+Card yugioh_availability[10] = {
+		{"Blue eyes white dragon", "Near Mint", 1000.00, true },
+		{"Dark magician", "Mint", 1500.00, false },
+		{"Red eyes black dragon", "Damaged", 20.00, true },
+		{"Stardust dragon", "Near Mint", 700.00, false },
+		{"Deocde talker", "Lightly Played", 300.00, false },
+		{"FiendSmith engraver", "Heavily Played", 33.11, true },
+		{"ArtMage graflare", "Lightly Played", 47.50, false },
+		{"Raigeki", "Damaged", 2.30, true },
+		{"Chaos angel", "Mint", 36.87, true },
+		{"Kashtira unicorn", "Near Mint", 18.12, true },
 	};
-Card pokemon_availability[5] = {
-		{ "Pikachu", "Near Mint", 980.00, true },
-		{ "Charizard", "Mint", 1750.00, false },
-		{ "Mew", "Lighlty Played", 120.00, false },
-		{ "Magikarp", "Near Mint", 860.00, false },
-		{ "Greninja", "Damaged", 30.00, true },
+Card pokemon_availability[10] = {
+		{"Pikachu", "Near Mint", 980.00, true },
+		{"Charizard", "Mint", 1750.00, false },
+		{"Mew", "Lighlty Played", 120.00, false },
+		{"Magikarp", "Near Mint", 860.00, false },
+		{"Greninja", "Damaged", 30.00, true },
+		{"Meowth", "Heavily Played", 8.12, true },
+		{"Munna", "Damaged", 11.10, false },
+		{"Mega Sharpedo EX", "Near Mint", 25.30, false },
+		{"Victini", "Mint", 512.55, true },
+		{"Piplup", "Lightly Played", 20.50, true },
+
 	};
 
-Card digimon_availability[5] = {
-		{ "Omnimon", "Mint", 1200.00, true },
-		{ "Mastemon", "Damaged", 30.00, false },
-		{ "WarGreymon", "Damaged", 15.00, true },
-		{ "Necromon", "Mint", 640.00, true },
-		{ "Ryugumon", "Lightly Played ", 150.00, true },
+Card digimon_availability[10] = {
+		{"Omnimon", "Mint", 1200.00, true },
+		{"Mastemon", "Damaged", 30.00, false },
+		{"WarGreymon", "Damaged", 15.00, true },
+		{"Necromon", "Mint", 640.00, true },
+		{"Ryugumon", "Lightly Played", 150.00, true },
+		{"Neptunemon", "Heavily Played", 12.52, true },
+		{"Ariemon", "Mint", 43.20, false },
+		{"Alphamon", "Mint", 37.30, false },
+		{"Merukimon", "Lighlty Played", 20.00, true },
+		{"Ami Aiba", "Near Mint", 157.00, true },
 	};
 
 //maximum number of slectable tcg and cards to choose from so far
 const int MAX_TCG = 3;
-const int MAX_CARDS = 5;
-
+const int MAX_CARDS = 50;
 
 
 int main() {
@@ -107,7 +120,7 @@ int main() {
 		cout << "1. buy" << endl;
 		cout << "2. sell" << endl;
 		cout << "3. trade" << endl;
-		cout << "4. view orders" << endl;
+		cout << "4. view catalog by price" << endl;
 		cout << "5. view collection" << endl;
 
 		cout << "*********************************************" << endl;
@@ -121,7 +134,7 @@ int main() {
 
 		switch (choiceX) {
 			case '1':
-				cout << "\n Which TCG are you interested in buying?" << endl;
+				cout << "\nWhich TCG are you interested in buying?" << endl;
 				cout << "\n";
 				for (int i = 0; i < 3; i++) {
 					cout << i + 1 << ". " << tcg_selection[i] << endl;
@@ -129,41 +142,51 @@ int main() {
 		
 			cout << "\n";
 			cin >> tcgChoice;
+			cout << "\n";
+			if (cin.fail()) {
+				cin.clear();
+				cin.ignore(1000, '\n');
+				cout << "Invalid Input!" << endl;
+				continue;
+			}
 
 			if (tcgChoice >= 1 && tcgChoice <= 3) {
-				cout << "\nWould you like to sort cards by price lowest to highest? (Type [P]) ";
-				cout << "\nBy condition? (Type [C]) ";
+				cout << "\nSort cards by price lowest to highest? (Type [P]) ";
 				cout << "\nBy availability? (Type [A]) ";
-				cout << "\nIf not, for default listing (Type [D]) ";
+				cout << "\nBy condition? (Type [C]) ";		
+				cout << "\nFor default listing (Type [D]) ";
 				cout << "\nPlease make a selection: " << endl;
+				cout << "\n";
 				cin >> sortChoice;
 				sortChoice = toupper(sortChoice);
 				cin.ignore(1000, '\n');
 
 				switch (sortChoice) {
 					case 'P':
-					if (tcgChoice == 1) sortByPrice(yugioh_availability, 5);
-					else if (tcgChoice == 2) sortByPrice(pokemon_availability, 5);
-					else if (tcgChoice == 3) sortByPrice(digimon_availability, 5);
+					if (tcgChoice == 1) sortByPrice(yugioh_availability, 10);
+					else if (tcgChoice == 2) sortByPrice(pokemon_availability, 10);
+					else if (tcgChoice == 3) sortByPrice(digimon_availability, 10);
 					break;
 					case 'C':
-					if (tcgChoice == 1) sortByCondition(yugioh_availability, 5);
-					else if (tcgChoice == 2) sortByCondition(pokemon_availability, 5);
-					else if (tcgChoice == 3) sortByCondition(digimon_availability, 5);
+					if (tcgChoice == 1) sortByCondition(yugioh_availability, 10);
+					else if (tcgChoice == 2) sortByCondition(pokemon_availability, 10);
+					else if (tcgChoice == 3) sortByCondition(digimon_availability, 10);
 					break;
 
 					case 'A':
-					cout << "availability" << endl;
+						if (tcgChoice == 1) sortByAvailability(yugioh_availability, 10);
+						else if (tcgChoice == 2) sortByAvailability(pokemon_availability, 10);
+						else if (tcgChoice == 3) sortByAvailability(digimon_availability, 10);
 					break;
 
 					case 'D':
 					default:
-					cout << "default" << endl;
+					cout << "default listed" << endl;
 					break;
 				}
-				if (tcgChoice == 1) cardDisplay("Yugioh", yugioh_availability, 5);
-				else if (tcgChoice == 2) cardDisplay("Pokemon", pokemon_availability, 5);
-				else if (tcgChoice == 3) cardDisplay("Digimon", digimon_availability, 5);
+				if (tcgChoice == 1) cardDisplay("Yugioh", yugioh_availability, 10);
+				else if (tcgChoice == 2) cardDisplay("Pokemon", pokemon_availability, 10);
+				else if (tcgChoice == 3) cardDisplay("Digimon", digimon_availability, 10);
 			}
 			else {
 				cout << "\n Invalid TCG selection. " << endl;
@@ -181,7 +204,8 @@ int main() {
 				break;
 
 			case '4':
-				cout << "\nSorry you currenlty cannot view your orders... :( " << endl;
+				cout << "\nSearching cards by Price!" << endl;
+				searchAllByPrice(yugioh_availability, pokemon_availability, digimon_availability, 10);
 				break;
 
 			case '5':
@@ -204,7 +228,7 @@ int main() {
 
 	}
 
-	cout << "\n Thanks for using this program, have a nice day!" << endl;
+	cout << "\nThanks for using this program, have a nice day!" << endl;
 
 		return 0;
 }
@@ -233,13 +257,25 @@ void sortByPrice(Card cards[], int size) {
 	}
 }
 
+//bubble sort for availability sorting
+void sortByAvailability(Card cards[], int size) {
+	for (int i = 0; i < size - 1; i++) {
+		for (int j = 0; j < size - i - 1; j++) {
+			if (cards[j].availability > cards[j + 1].availability) {
+				Card temp = cards[j];
+				cards[j] = cards[j + 1];
+				cards[j + 1] = temp;
+			}
+		}
+	}
+}
+
 //function to turn the condition string to a number for the sortByCondition bubble sort
 int conditionConvert(string condition) {
 	if (condition == "Mint") return 5;
 	if (condition == "Near Mint") return 4;
 	if (condition == "Lightly Played") return 3;
 	if (condition == "Heavily Played") return 2;
-	//if (condition == "Damaged") return 2;
 	return 1;
 }
 
@@ -256,6 +292,42 @@ void sortByCondition(Card cards[], int size) {
 	}
 }
 
+void searchAllByPrice(Card yugi[], Card poke[], Card digi[], int size) {
+	double minPrice, maxPrice;
+	bool found = false;
+
+	cout << "Enter minimum price: $";
+	cin >> minPrice;
+	cout << "Enter Maximum price: $";
+	cin >> maxPrice;
+	cout << "\n";
+
+	cout << "Searching range by $" << minPrice << " - " << maxPrice << endl;
+	//yugioh
+	for (int i = 0; i < size; i++) {
+		if (yugi[i].price >= minPrice && yugi[i].price <= maxPrice) {
+			cout << "Yugioh " << yugi[i].name << " | $" << yugi[i].price << endl;
+			found = true;
+		}
+	}
+	//pokemon
+	for (int i = 0; i < size; i++) {
+		if (poke[i].price >= minPrice && poke[i].price <= maxPrice) {
+			cout << "Pokemon " << poke[i].name << " | $" << poke[i].price << endl;
+			found = true;
+		}
+	}
+	//digimon
+	for (int i = 0; i < size; i++) {
+		if (digi[i].price >= minPrice && digi[i].price <= maxPrice) {
+			cout << "Digimon " << digi[i].name << " | $" << digi[i].price << endl;
+			found = true;
+		}
+	}
+	if (!found) {
+		cout << "No cards were found within that range" << endl;
+	}
+}
 
 // opens text file that displays availale tcg
 void printTcg() {
